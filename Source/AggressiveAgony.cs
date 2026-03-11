@@ -32,7 +32,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
         public FixedTimeStamp HomingAttackTimestamp = new FixedTimeStamp();
         public FixedTimeStamp ULTRAHomingAttackTimestamp = new FixedTimeStamp();
 
-        public bool Enabled { get => Cheats.IsCheatEnabled(Cheats.AggressiveAgony); }
+        public bool Enabled { get => NyxLib.Cheats.IsCheatEnabled(Cheats.AggressiveAgony); }
         public bool Disabled { get => !Enabled; }
         public static int MonoRegistrarIndex { get; private set; }
         private RegistrationTracker _painMeterRequestTracker = null;
