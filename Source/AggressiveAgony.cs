@@ -40,11 +40,12 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
         protected void Awake()
         {
             Heck = Heck.Itself;
-            PainStore = Heck.Itself.GetPainStore();
         }
 
         protected void Start()
         {
+            PainStore = Heck.Itself.GetPainStore();
+
             MortarAttackTimestamp.UpdateToNow();
             ULTRAMortarAttackTimestamp.UpdateToNow();
 
@@ -63,6 +64,18 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
             {
                 return;
             }
+            
+            _painMeterRequestTracker = new RegistrationTracker(
+            () => 
+            {
+                PainStore.RequestShowPainMeter();
+                return true;
+            }, 
+            () => 
+            { 
+                PainStore.RetractRequestShowPainMeter(); 
+                return true; 
+            });
 
             SmallExplosionPrefab = GameObject.Instantiate(Assets.ExplosionPrefab, PrefabHolder.transform);
             SmallExplosionPrefab.SetActive(true);
@@ -75,29 +88,17 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
             var explosion = ExplosionPrefab.GetComponent<ExplosionAdditions>();
             explosion.ExplosionScale = 0.85f;
             explosion.ExplosionSpeedScale = 0.85f;
-
-            _painMeterRequestTracker = new RegistrationTracker(
-                () => 
-                {
-                    PainStore.RequestShowPainMeter();
-                    return true;
-                }, 
-                () => 
-                { 
-                    PainStore.RetractRequestShowPainMeter(); 
-                    return true; 
-                });
         }
 
         protected void Update()
         {
             if (Enabled)
             {
-                _painMeterRequestTracker.Register();
+                _painMeterRequestTracker?.Register();
             }
             else
             {
-                _painMeterRequestTracker.Unregister();
+                _painMeterRequestTracker?.Unregister();
             }
         }
 
