@@ -23,8 +23,9 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
         private GameObject PrefabHolder = null;
 
         private GameObject NoExplosionPrefab = null;
-        private GameObject SmallExplosionPrefab = null;
-        private GameObject ExplosionPrefab = null;
+        private GameObject HomingExplosionPrefab = null;
+        private GameObject MortarExplosionPrefab = null;
+        private GameObject UltraMortarExplosionPrefab = null;
 
         public FixedTimeStamp MortarAttackTimestamp = new FixedTimeStamp();
         public FixedTimeStamp ULTRAMortarAttackTimestamp = new FixedTimeStamp();
@@ -77,17 +78,26 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
                 return true; 
             });
 
-            SmallExplosionPrefab = GameObject.Instantiate(Assets.ExplosionPrefab, PrefabHolder.transform);
-            SmallExplosionPrefab.SetActive(true);
-            var smallExplosion = SmallExplosionPrefab.GetComponent<ExplosionAdditions>();
-            smallExplosion.ExplosionScale = 0.5f;
-            smallExplosion.ExplosionSpeedScale = 0.5f;
+            HomingExplosionPrefab = GameObject.Instantiate(Assets.ExplosionPrefab, PrefabHolder.transform);
+            HomingExplosionPrefab.SetActive(true);
+            var smallExplosion = HomingExplosionPrefab.GetComponent<ExplosionAdditions>();
+            smallExplosion.ExplosionDamageScale = Options.ULTRAHomingProjectileExplosionDamageScale.Value;
+            smallExplosion.ExplosionScale = Options.ULTRAHomingProjectileExplosionSizeScale.Value;
+            smallExplosion.ExplosionSpeedScale = Options.ULTRAHomingProjectileExplosionSpeedScale.Value;
 
-            ExplosionPrefab = GameObject.Instantiate(Assets.ExplosionPrefab, PrefabHolder.transform);
-            ExplosionPrefab.SetActive(true);
-            var explosion = ExplosionPrefab.GetComponent<ExplosionAdditions>();
-            explosion.ExplosionScale = 0.85f;
-            explosion.ExplosionSpeedScale = 0.85f;
+            MortarExplosionPrefab = GameObject.Instantiate(Assets.ExplosionPrefab, PrefabHolder.transform);
+            MortarExplosionPrefab.SetActive(true);
+            var explosion = MortarExplosionPrefab.GetComponent<ExplosionAdditions>();
+            explosion.ExplosionDamageScale = Options.MortarExplosionDamageScale.Value;
+            explosion.ExplosionScale = Options.MortarExplosionSizeScale.Value;
+            explosion.ExplosionSpeedScale = Options.MortarExplosionSpeedScale.Value;
+
+            UltraMortarExplosionPrefab = GameObject.Instantiate(Assets.ExplosionPrefab, PrefabHolder.transform);
+            UltraMortarExplosionPrefab.SetActive(true);
+            var ultraMortarExplosion = UltraMortarExplosionPrefab.GetComponent<ExplosionAdditions>();
+            ultraMortarExplosion.ExplosionDamageScale = Options.ULTRAMortarExplosionDamageScale.Value;
+            ultraMortarExplosion.ExplosionScale = Options.ULTRAMortarExplosionSizeScale.Value;
+            ultraMortarExplosion.ExplosionSpeedScale = Options.ULTRAMortarExplosionSpeedScale.Value;
         }
 
         protected void Update()
@@ -155,7 +165,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
             if (ULTRAHomingAttackTimestamp.TimeSince > waitTime)
             {
                 ULTRAHomingAttackTimestamp.UpdateToNow();
-                StartCoroutine(HomingAttack(true, 8));
+                StartCoroutine(HomingAttack(true, 6));
                 return 18.0f;
             }
 
@@ -225,8 +235,8 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
                 projectile.homingType = HomingType.Instant;
                 projectile.damage = 0;
                 var gainsMod = projectile.gameObject.AddComponent<ParryGainsModifier>();
-                gainsMod.ParryHealthGain = 10.0f;
-                gainsMod.ParryStaminaGain = 40.0f;
+                gainsMod.ParryHealthGain = Options.HomingProjectileParryHealthGain.Value;
+                gainsMod.ParryStaminaGain = Options.HomingProjectileParryEnergyGain.Value;
                 projectiles.Add(projectile);
 
                 projectileGo.SetActive(true);
@@ -266,12 +276,12 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
                 projectile.GetComponent<AudioSource>().Play();
                 projectile.speed = 40.0f;
                 projectile.turningSpeedMultiplier = 0.75f;
-                projectile.damage = 35;
+                projectile.damage = Options.HomingProjectileDamage.Value;
                 
                 if (explosive)
                 {
-                    projectile.explosionEffect = SmallExplosionPrefab;
-                    projectile.damage = 50;
+                    projectile.explosionEffect = HomingExplosionPrefab;
+                    projectile.damage = Options.ULTRAHomingProjectileDamage.Value;
                 }
             }
 
@@ -292,7 +302,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
         private IEnumerator MortarAttack(bool bigExplosion = false, float numProjectilesMultiplier = 1.0f)
         {
             var player = NewMovement.Instance;
-            int numProjectiles = (int)(4 * numProjectilesMultiplier);
+            int numProjectiles = (int)(3 * numProjectilesMultiplier);
 
             List<Projectile> projectiles = new List<Projectile>(numProjectiles);
             Vector3 playerPos = player.transform.position;
@@ -309,8 +319,8 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
                 projectile.homingType = HomingType.HorizontalOnly;
                 projectile.damage = 0;
                 var gainsMod = projectile.gameObject.AddComponent<ParryGainsModifier>();
-                gainsMod.ParryHealthGain = 15.0f;
-                gainsMod.ParryStaminaGain = 60.0f;
+                gainsMod.ParryHealthGain = 30.0f;
+                gainsMod.ParryStaminaGain = 100.0f;
                 projectile.bigExplosion = bigExplosion;
                 projectile.explosionEffect = NoExplosionPrefab;
                 projectile.turnSpeed *= 2.0f;
@@ -334,8 +344,8 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
                 }
                 
                 projectile.GetComponent<AudioSource>().Play();
-                projectile.damage = 50;
-                projectile.explosionEffect = ExplosionPrefab;
+                projectile.damage = bigExplosion ? Options.ULTRAMortarDamage.Value : Options.MortarDamage.Value;
+                projectile.explosionEffect = bigExplosion ? UltraMortarExplosionPrefab : MortarExplosionPrefab;
             }
         }
 

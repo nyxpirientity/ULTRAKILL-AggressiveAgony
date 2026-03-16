@@ -34,7 +34,15 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
             proj.playerBullet = true;
             var v1 = NewMovement.Instance;
             v1.GetHealth((int)ParryHealthGain, false, false, true);
-            v1.boostCharge += ParryStaminaGain;
+            
+            if (v1.boostCharge + ParryStaminaGain >= 300.0f)
+            {
+                v1.FullStamina();
+            }
+            else
+            {
+                v1.boostCharge += ParryStaminaGain;                
+            }
         }
     }
 }
