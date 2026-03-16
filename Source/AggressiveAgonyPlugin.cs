@@ -2,6 +2,7 @@
 using BepInEx;
 using Nyxpiri.ULTRAKILL.NyxLib;
 using System;
+using System.IO;
 
 namespace Nyxpiri.ULTRAKILL.AggressiveAgony
 {
@@ -20,6 +21,12 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
 
             AggressiveAgony.Initialze();
             NyxLib.Cheats.ReadyForCheatRegistration += RegisterCheats;
+            Options.Initialize(Config);
+            
+            if (!File.Exists(Config.ConfigFilePath))
+            {
+                Config.Save();
+            }
         }
 
         private void RegisterCheats(CheatsManager cheatsManager)
@@ -45,6 +52,14 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
 
         }
 
+        protected void OnApplicationFocus(bool hasFocus)
+        {
+            if (hasFocus)
+            {
+                Config.Reload();
+            }
+        }
+        
         protected void LateUpdate()
         {
 
