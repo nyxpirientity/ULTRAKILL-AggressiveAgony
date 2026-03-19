@@ -11,7 +11,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
         public const string AggressiveAgony = "nyxpiri.aggressive-agony";
     } 
 
-    [BepInPlugin("com.nyxpiri.bepinex.plugins.ultrakill.aggressive-agony", "Aggressive Agony", "0.0.0.1")]
+    [BepInPlugin("nyxpiri.ultrakill.aggressive-agony", "Aggressive Agony", "0.0.0.1")]
     [BepInProcess("ULTRAKILL.exe")]
     public class AggressiveAgonyPlugin : BaseUnityPlugin
     {
