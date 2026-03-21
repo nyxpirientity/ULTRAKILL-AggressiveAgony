@@ -27,6 +27,9 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
             {
                 Config.Save();
             }
+
+            Assets.EnableExplosionsPicking();
+            Assets.EnableProjectilePicking();
         }
 
         private void RegisterCheats(CheatsManager cheatsManager)
