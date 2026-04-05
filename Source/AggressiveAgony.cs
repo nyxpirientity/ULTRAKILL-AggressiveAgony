@@ -234,7 +234,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
 
                 projectile.homingType = HomingType.Instant;
                 projectile.damage = 0;
-                var gainsMod = projectile.gameObject.AddComponent<ParryGainsModifier>();
+                var gainsMod = projectile.gameObject.AddComponent<ProjectileParryGainsModifier>();
                 gainsMod.ParryHealthGain = Options.HomingProjectileParryHealthGain.Value;
                 gainsMod.ParryStaminaGain = Options.HomingProjectileParryEnergyGain.Value;
                 gainsMod.ParryPunchStaminaGain = Options.HomingProjectileParryPunchStaminaGain.Value;
@@ -319,7 +319,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
                 
                 projectile.homingType = HomingType.HorizontalOnly;
                 projectile.damage = 0;
-                var gainsMod = projectile.gameObject.AddComponent<ParryGainsModifier>();
+                var gainsMod = projectile.gameObject.AddComponent<ProjectileParryGainsModifier>();
                 gainsMod.ParryHealthGain = Options.MortarParryHealthGain.Value;
                 gainsMod.ParryStaminaGain = Options.MortarParryEnergyGain.Value;
                 gainsMod.ParryPunchStaminaGain = Options.MortarParryPunchStaminaGain.Value;
