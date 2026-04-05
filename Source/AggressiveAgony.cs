@@ -275,7 +275,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
                 }
                 
                 projectile.GetComponent<AudioSource>().Play();
-                projectile.speed = 40.0f;
+                projectile.speed = Options.HomingProjectileSpeed.Value;
                 projectile.turningSpeedMultiplier = 0.75f;
                 projectile.damage = Options.HomingProjectileDamage.Value;
                 
@@ -286,7 +286,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
                 }
             }
 
-            yield return new UnityEngine.WaitForSeconds(3.0f);
+            yield return new UnityEngine.WaitForSeconds(Options.HomingProjectileLifeTime.Value);
 
                         
             foreach (var projectile in projectiles)
@@ -348,6 +348,20 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
                 projectile.GetComponent<AudioSource>().Play();
                 projectile.damage = bigExplosion ? Options.ULTRAMortarDamage.Value : Options.MortarDamage.Value;
                 projectile.explosionEffect = bigExplosion ? UltraMortarExplosionPrefab : MortarExplosionPrefab;
+            }
+
+            yield return new UnityEngine.WaitForSeconds(Options.MortarLifeTime.Value);
+                        
+            foreach (var projectile in projectiles)
+            {
+                if (projectile == null)
+                {
+                    continue;
+                }
+
+                projectile.explosionEffect.GetComponentInChildren<Explosion>().harmless = true;
+
+                projectile.Explode();
             }
         }
 
