@@ -30,7 +30,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
 
             MortarLifeTime = _config.Bind("Balance.Mortar", "MortarLifeTime", 2.0f, "Amount of time mortars will last before exploding/dying");
             MortarDamage = _config.Bind("Balance.Mortar", "MortarDamage", 50, "");
-            MortarExplosionDamageScale = _config.Bind("Balance.Mortar", "MortarExplosionDamageScale", 1.0f, "");
+            MortarExplosionDamage = _config.Bind("Balance.Mortar", "MortarExplosionDamage", 1.0f, "");
             MortarExplosionSizeScale = _config.Bind("Balance.Mortar", "MortarExplosionSizeScale", 0.85f, "");
             MortarExplosionSpeedScale = _config.Bind("Balance.Mortar", "MortarExplosionSpeedScale", 0.85f, "");
 
@@ -58,7 +58,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
         public static ConfigEntry<float> MortarParryPunchStaminaGain { get; private set; }
         public static ConfigEntry<float> MortarLifeTime { get; private set; }
         public static ConfigEntry<int> MortarDamage { get; private set; }
-        public static ConfigEntry<float> MortarExplosionDamageScale { get; private set; }
+        public static ConfigEntry<float> MortarExplosionDamage { get; private set; }
         public static ConfigEntry<float> MortarExplosionSizeScale { get; private set; }
         public static ConfigEntry<float> MortarExplosionSpeedScale { get; private set; }
         public static ConfigEntry<int> ULTRAMortarDamage { get; private set; }

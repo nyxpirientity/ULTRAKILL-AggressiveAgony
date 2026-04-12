@@ -88,7 +88,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
             MortarExplosionPrefab = GameObject.Instantiate(Assets.ExplosionPrefab, PrefabHolder.transform);
             MortarExplosionPrefab.SetActive(true);
             var explosion = MortarExplosionPrefab.GetComponent<ExplosionAdditions>();
-            explosion.ExplosionDamageScale = Options.MortarExplosionDamageScale.Value;
+            explosion.ExplosionDamageScale = Options.MortarExplosionDamage.Value;
             explosion.ExplosionScale = Options.MortarExplosionSizeScale.Value;
             explosion.ExplosionSpeedScale = Options.MortarExplosionSpeedScale.Value;
 
@@ -180,7 +180,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
             {
                 MortarAttackTimestamp.UpdateToNow();
                 StartCoroutine(MortarAttack());
-                return 10.0f;
+                return 15.0f;
             }
 
             return 0.0f;
@@ -194,7 +194,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
             {
                 HomingAttackTimestamp.UpdateToNow();
                 StartCoroutine(HomingAttack(false, 5));
-                return 7.0f;
+                return 8.0f;
             }
 
             return 0.0f;
@@ -323,7 +323,7 @@ namespace Nyxpiri.ULTRAKILL.AggressiveAgony
                 gainsMod.ParryHealthGain = Options.MortarParryHealthGain.Value;
                 gainsMod.ParryStaminaGain = Options.MortarParryEnergyGain.Value;
                 gainsMod.ParryPunchStaminaGain = Options.MortarParryPunchStaminaGain.Value;
-                projectile.bigExplosion = bigExplosion;
+                //projectile.bigExplosion = bigExplosion;
                 projectile.explosionEffect = NoExplosionPrefab;
                 projectile.turnSpeed *= 2.0f;
                 projectile.predictiveHomingMultiplier *= 6.0f * ((1.0f + ((float)i / numProjectiles)));
